@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 AI Agent Developer Guide 2025</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        /* --- General Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background-color: #252526;
+            border-right: 1px solid #3c3c3c;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #569cd6;
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            color: #cccccc;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .sidebar-nav a.active {
+            background-color: #569cd6;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(86, 156, 214, 0.3);
+        }
+
+        .sidebar-nav a.active::before {
+            content: "▶";
+            margin-right: 8px;
+            color: #ffffff;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            max-width: calc(100% - 280px);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #252526;
+            border: 1px solid #3c3c3c;
+            border-radius: 10px;
+            padding: 2rem 3rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+
+            .main-content {
+                margin-left: 250px;
+                max-width: calc(100% - 250px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background-color: #569cd6;
+                color: white;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* LLM Cards Styling */
+        .llm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .llm-card {
+            background: linear-gradient(135deg, #2d2d2d 0%, #3c3c3c 100%);
+            border: 1px solid #555;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .llm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #569cd6;
+        }
+
+        .llm-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .llm-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #569cd6, #9cdcfe);
+            border-radius: 50%;
+        }
+
+        .llm-card h5 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .llm-card p {
+            margin: 0.75rem 0;
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .llm-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-tag {
+            background: linear-gradient(135deg, #569cd6, #4ec9b0);
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced Code Blocks with Run Button */
+
+        .run-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .run-btn:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+        }
+
+        .run-btn.running {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            animation: pulse 1s infinite;
+        }
+
+        .run-btn.success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .run-btn.error {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .code-output {
+            background-color: #1e1e1e;
+            border: 1px solid #3c3c3c;
+            border-radius: 8px;
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .output-header {
+            background-color: #2d2d2d;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-title {
+            color: #cccccc;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .close-output {
+            background: none;
+            border: none;
+            color: #cccccc;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-output:hover {
+            background-color: #444;
+            color: #ffffff;
+        }
+
+        .output-content {
+            padding: 1rem;
+            font-family: 'Menlo', 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            color: #d4d4d4;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .output-success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .output-error {
+            border-left: 4px solid #f44336;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, #1e1e1e 0%, #2d2d2d 100%);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar h2 {
+            background: linear-gradient(135deg, #569cd6, #9cdcfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .sidebar-nav a.active {
+            background: linear-gradient(135deg, #569cd6, #4ec9b0);
+            box-shadow: 0 4px 15px rgba(86, 156, 214, 0.4);
+            transform: translateX(8px);
+        }
+
+        .sidebar-nav a.active::before {
+            content: "▶";
+            margin-right: 8px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Progress Indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #2d2d2d;
+            z-index: 1002;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #569cd6, #4ec9b0, #569cd6);
+            background-size: 200% 100%;
+            animation: progress-shine 2s infinite;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes progress-shine {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #569cd6, #4ec9b0);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(86, 156, 214, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(86, 156, 214, 0.6);
+        }
+
+        /* Enhanced main content */
+        .container {
+            background: linear-gradient(135deg, #252526 0%, #2d2d2d 100%);
+            border: 1px solid #404040;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Code block enhancements */
+        .code-wrapper {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid #444;
+        }
+
+        .code-header {
+            background: linear-gradient(135deg, #2d2d2d 0%, #3c3c3c 100%);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #ffffff;
+            font-weight: 700;
+            border-bottom: 1px solid #3c3c3c;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        a {
+            color: #569cd6;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: #9cdcfe;
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #3c3c3c;
+            margin: 3rem 0;
+        }
+
+        strong {
+            color: #ce9178;
+        }
+
+        /* --- Code Wrapper (macOS Style) --- */
+        .code-wrapper {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid #444;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 15px;
+            background-color: #3c3c3c;
+            border-bottom: 1px solid #444;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background-color: #fc605c;
+        }
+
+        .yellow {
+            background-color: #fdbc40;
+        }
+
+        .green {
+            background-color: #34c749;
+        }
+
+        .file-title {
+            color: #ccc;
+            font-size: 0.9em;
+            margin-left: 15px;
+            font-family: monospace;
+            flex-shrink: 0;
+        }
+
+        .copy-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+
+        .copy-btn.copied {
+            background-color: #569cd6;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Menlo', 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="scrollToTop()" title="Back to Top">⬆️</button>
+
+    <div class="sidebar">
+        <h2>📚 Table of Contents</h2>
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a href="#introduction">🎯 Introduction</a></li>
+                <li><a href="#foundations">🧠 AI Foundations</a></li>
+                <li><a href="#environment-setup">🚀 Environment Setup</a></li>
+                <li><a href="#understanding-rag">📚 Chapter 1: RAG Pipelines</a></li>
+                <li><a href="#langgraph">🔄 Chapter 2: LangGraph</a></li>
+                <li><a href="#crewai">👥 Chapter 3: Crew AI</a></li>
+                <li><a href="#autogen">💬 Chapter 4: AutoGen</a></li>
+                <li><a href="#integration">🔗 Chapter 5: Integration</a></li>
+                <li><a href="#projects">🛠️ Hands-On Projects</a></li>
+                <li><a href="#advanced">📈 Advanced Topics</a></li>
+                <li><a href="#troubleshooting">🔧 Troubleshooting</a></li>
+                <li><a href="#references">📖 References</a></li>
+                <li><a href="#conclusion">🎉 Conclusion</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>🚀 AI Agent Developer Guide 2025</h1>
+
+            <h2 id="introduction">🎯 Introduction</h2>
+            <p>This comprehensive tutorial covers building AI agent systems with RAG (Retrieval-Augmented Generation)
+                using multiple frameworks: LangChain, LangGraph, Crew AI, and AutoGen.</p>
+
+            <h3>What You'll Learn</h3>
+            <ul>
+                <li>Understanding RAG pipelines and their components</li>
+                <li>Building basic RAG systems with LangChain</li>
+                <li>Creating advanced workflows with LangGraph</li>
+                <li>Developing multi-agent teams with Crew AI</li>
+                <li>Building conversational agents with AutoGen</li>
+                <li>Integrating all frameworks for complex systems</li>
+                <li>Best practices and optimization techniques</li>
+                <li>Hands-on projects for practical experience</li>
+            </ul>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>Python 3.8+</li>
+                <li>Basic understanding of AI/ML concepts</li>
+                <li>Familiarity with APIs and databases</li>
+                <li>OpenAI API key (recommended)</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="foundations">🧠 AI Foundations</h2>
+
+            <h3>What are Large Language Models (LLMs)?</h3>
+            <p>Large Language Models (LLMs) are advanced artificial intelligence systems trained on massive amounts of
+                text data to understand and generate human-like text. They serve as the computational engine for modern
+                AI applications.</p>
+
+            <h4>Key Characteristics of LLMs:</h4>
+            <ul>
+                <li><strong>Pattern Recognition</strong> - LLMs excel at identifying patterns in language and generating
+                    coherent responses</li>
+                <li><strong>Contextual Understanding</strong> - They can maintain context across conversations and
+                    understand nuanced meanings</li>
+                <li><strong>General Knowledge</strong> - Trained on diverse datasets, LLMs possess broad knowledge
+                    across many domains</li>
+                <li><strong>Scalability</strong> - Modern LLMs can handle complex tasks and adapt to various use cases
+                </li>
+            </ul>
+
+            <h4>Latest LLM Examples:</h4>
+            <div class="llm-grid">
+                <div class="llm-card">
+                    <div class="llm-header">
+                        <h5>GPT-5</h5>
+                        <p>OpenAI</p>
+                    </div>
+                </div>
+
+                <div class="llm-card">
+                    <div class="llm-header">
+                        <h5>Claude 4.5 Sonnet</h5>
+                        <p>Anthropic</p>
+                    </div>
+                </div>
+
+                <div class="llm-card">
+                    <div class="llm-header">
+                        <h5>Gemini 2.5 Pro</h5>
+                        <p>Google</p>
+                    </div>
+                </div>
+
+
+                <div class="llm-card">
+                    <div class="llm-header">
+                        <h5>Grok-4</h5>
+                        <p>xAI</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <h3>What are AI Agents?</h3>
+            <p>AI Agents are autonomous software entities that can perceive their environment, make decisions, and take
+                actions to achieve specific goals. Unlike simple chatbots, agents can interact with tools, maintain
+                memory, and execute complex workflows.</p>
+
+            <h4>AI Agent vs Traditional AI:</h4>
+            <ul>
+                <li><strong>Autonomy</strong> - Agents can operate independently without constant human supervision</li>
+                <li><strong>Tool Integration</strong> - Agents can use external tools and APIs to extend their
+                    capabilities</li>
+                <li><strong>Memory & State</strong> - Agents maintain context and learn from interactions over time</li>
+                <li><strong>Goal-Oriented</strong> - Agents work towards specific objectives rather than just responding
+                    to queries</li>
+            </ul>
+
+            <h3>Components of AI Agents</h3>
+            <p>Modern AI agents are composed of several interconnected components that work together to enable
+                intelligent behavior.</p>
+
+            <h4>1. 🧠 Core Intelligence (LLM)</h4>
+            <p>The foundational AI model that provides reasoning, understanding, and generation capabilities.</p>
+            <ul>
+                <li><strong>Language Understanding</strong> - Processing and interpreting user inputs</li>
+                <li><strong>Reasoning Engine</strong> - Making logical decisions and planning actions</li>
+                <li><strong>Response Generation</strong> - Creating coherent and contextually appropriate outputs</li>
+            </ul>
+
+            <h4>2. 🛠️ Tool Integration Layer</h4>
+            <p>External capabilities that extend the agent's functionality beyond the LLM's built-in knowledge.</p>
+            <ul>
+                <li><strong>API Connectors</strong> - Integration with web services and databases</li>
+                <li><strong>Code Execution</strong> - Running code snippets and scripts</li>
+                <li><strong>File System Access</strong> - Reading, writing, and manipulating files</li>
+                <li><strong>Search Capabilities</strong> - Web search and information retrieval</li>
+            </ul>
+
+            <h4>3. 💾 Memory & State Management</h4>
+            <p>Systems for maintaining context, learning from interactions, and managing long-term knowledge.</p>
+            <ul>
+                <li><strong>Short-term Memory</strong> - Conversation context and recent interactions</li>
+                <li><strong>Long-term Memory</strong> - Persistent knowledge and learned patterns</li>
+                <li><strong>Working Memory</strong> - Temporary storage for complex task execution</li>
+            </ul>
+
+            <h4>4. 🎯 Planning & Decision Making</h4>
+            <p>Capabilities for breaking down complex tasks and making strategic decisions.</p>
+            <ul>
+                <li><strong>Task Decomposition</strong> - Breaking complex problems into manageable steps</li>
+                <li><strong>Strategy Selection</strong> - Choosing optimal approaches for different scenarios</li>
+                <li><strong>Resource Allocation</strong> - Managing time, API calls, and computational resources</li>
+            </ul>
+
+            <h4>5. 🔄 Execution & Control Flow</h4>
+            <p>Mechanisms for coordinating multiple actions and managing workflow execution.</p>
+            <ul>
+                <li><strong>Sequential Processing</strong> - Step-by-step task execution</li>
+                <li><strong>Parallel Processing</strong> - Concurrent operation of multiple components</li>
+                <li><strong>Error Handling</strong> - Graceful recovery from failures and edge cases</li>
+                <li><strong>Loop Control</strong> - Iterative processes and conditional logic</li>
+            </ul>
+
+            <h4>6. 👥 Multi-Agent Coordination</h4>
+            <p>Systems for multiple agents to collaborate, communicate, and work together on complex tasks.</p>
+            <ul>
+                <li><strong>Communication Protocols</strong> - Standardized ways for agents to exchange information</li>
+                <li><strong>Role Assignment</strong> - Specialized functions and responsibilities</li>
+                <li><strong>Conflict Resolution</strong> - Managing disagreements and coordination issues</li>
+                <li><strong>Shared Knowledge</strong> - Collective learning and information sharing</li>
+            </ul>
+
+            <h4>7. 🔒 Safety & Ethics Layer</h4>
+            <p>Built-in safeguards and ethical considerations to ensure responsible AI behavior.</p>
+            <ul>
+                <li><strong>Content Filtering</strong> - Preventing harmful or inappropriate outputs</li>
+                <li><strong>Bias Detection</strong> - Identifying and mitigating algorithmic biases</li>
+                <li><strong>Privacy Protection</strong> - Safeguarding user data and personal information</li>
+                <li><strong>Transparency</strong> - Clear explanations of agent decisions and actions</li>
+            </ul>
+
+            <h3>How RAG Enhances AI Agents</h3>
+            <p>Retrieval-Augmented Generation (RAG) addresses one of the key limitations of traditional LLMs by
+                providing access to up-to-date, domain-specific knowledge that wasn't available during the model's
+                training.</p>
+
+            <h4>RAG Benefits for AI Agents:</h4>
+            <ul>
+                <li><strong>Updated Knowledge</strong> - Access to current information beyond training data cutoff</li>
+                <li><strong>Domain Expertise</strong> - Specialized knowledge for specific industries or topics</li>
+                <li><strong>Source Attribution</strong> - Ability to cite sources and provide evidence</li>
+                <li><strong>Reduced Hallucinations</strong> - Grounded responses based on verified information</li>
+                <li><strong>Cost Efficiency</strong> - Smaller, specialized models can compete with larger general
+                    models</li>
+            </ul>
+
+            <h3>Agent Frameworks Overview</h3>
+            <p>Different frameworks provide various approaches to building AI agents, each with unique strengths and use
+                cases.</p>
+
+            <h4>LangChain - The Foundation</h4>
+            <p>LangChain provides the building blocks for LLM applications, focusing on composability and modular
+                design. It's perfect for building custom RAG systems and understanding the fundamentals of agent
+                development.</p>
+
+            <h4>LangGraph - State Management</h4>
+            <p>LangGraph enables complex, stateful agent workflows with sophisticated decision-making capabilities. It's
+                ideal for applications requiring multi-step reasoning and dynamic routing.</p>
+
+            <h4>Crew AI - Role-Based Teams</h4>
+            <p>Crew AI specializes in creating teams of specialized agents that collaborate on complex tasks. Each agent
+                has a specific role, goal, and backstory, mimicking real-world team dynamics.</p>
+
+            <h4>AutoGen - Conversational Agents</h4>
+            <p>AutoGen focuses on multi-agent conversations where agents can discuss, debate, and solve problems
+                together. It's excellent for collaborative problem-solving and interactive applications.</p>
+
+            <hr>
+
+            <h2 id="environment-setup">🚀 Environment Setup</h2>
+            <h3>Required Installations</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">shell</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'install-deps')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-bash"># Core frameworks
+pip install langchain langchain-community langchain-openai
+pip install langgraph langgraph-core
+pip install crewai crewai-tools
+pip install autogen-agentchat
+
+# Vector databases and embeddings
+pip install chromadb faiss-cpu pinecone-client
+pip install sentence-transformers
+
+# Additional tools
+pip install streamlit fastapi uvicorn
+pip install python-dotenv pandas numpy</code></pre>
+            </div>
+
+            <h3>Environment Configuration</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">python</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'env-config')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-python">import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Set your API keys
+os.environ["OPENAI_API_KEY"] = "your-openai-key"
+os.environ["ANTHROPIC_API_KEY"] = "your-anthropic-key"
+os.environ["PINECONE_API_KEY"] = "your-pinecone-key"</code></pre>
+            </div>
+
+            <hr>
+
+            <h2 id="understanding-rag">📚 Chapter 1: Understanding RAG Pipelines</h2>
+            <h3>What is RAG?</h3>
+            <p>Retrieval-Augmented Generation (RAG) combines the power of large language models with external knowledge
+                sources to provide more accurate, contextual, and up-to-date responses.</p>
+
+            <h3>RAG Pipeline Components</h3>
+            <ol>
+                <li><strong>Data Ingestion Layer</strong>
+                    <ul>
+                        <li>Document Sources (PDF, Text, Web, APIs)</li>
+                        <li>Document Loaders</li>
+                        <li>Text Preprocessing & Cleaning</li>
+                    </ul>
+                </li>
+                <li><strong>Indexing Pipeline</strong>
+                    <ul>
+                        <li>Text Chunking/Splitting</li>
+                        <li>Embedding Generation</li>
+                        <li>Vector Database Storage</li>
+                    </ul>
+                </li>
+                <li><strong>Retrieval System</strong>
+                    <ul>
+                        <li>Query Processing</li>
+                        <li>Similarity Search</li>
+                        <li>Context Ranking</li>
+                    </ul>
+                </li>
+                <li><strong>Generation Pipeline</strong>
+                    <ul>
+                        <li>Prompt Engineering</li>
+                        <li>LLM Processing</li>
+                        <li>Response Generation</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Basic RAG Implementation with LangChain</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">python</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'rag-basic')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-python">from langchain_community.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.vectorstores import Chroma
+from langchain.chains import RetrievalQA
+
+# Load documents
+loader = PyPDFLoader("path/to/document.pdf")
+documents = loader.load()
+
+# Split text into chunks
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=200
+)
+chunks = text_splitter.split_documents(documents)
+
+# Create embeddings and vector store
+embeddings = OpenAIEmbeddings()
+vector_store = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings
+)
+
+# Initialize LLM and create RAG chain
+llm = ChatOpenAI(model_name="gpt-5")
+retriever = vector_store.as_retriever()
+
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=retriever
+)
+
+# Use the chain
+response = qa_chain.invoke({"query": "Your question here"})</code></pre>
+                <div class="code-output" id="output-rag-basic">
+                    <div class="output-header">
+                        <span class="output-title">Output</span>
+                        <button class="close-output" onclick="closeOutput('output-rag-basic')">✕</button>
+                    </div>
+                    <div class="output-content">
+                        <!-- Output will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="langgraph">🔄 Chapter 2: Advanced Workflows with LangGraph</h2>
+            <h3>Understanding State-Based Agents</h3>
+            <p>LangGraph enables building stateful, multi-step agent workflows with complex decision-making
+                capabilities.</p>
+
+            <h3>Key Concepts</h3>
+            <ul>
+                <li><strong>State Management</strong>: Shared state between agents</li>
+                <li><strong>Node Functions</strong>: Individual agent capabilities</li>
+                <li><strong>Conditional Edges</strong>: Dynamic workflow routing</li>
+                <li><strong>Graph Compilation</strong>: Creating executable workflows</li>
+            </ul>
+
+            <h3>Complete LangGraph Implementation</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">python</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'langgraph-basic')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-python">from typing import TypedDict, List, Annotated
+from langgraph.graph import StateGraph, END, START
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+import operator
+
+class AgentState(TypedDict):
+    messages: Annotated[List[BaseMessage], operator.add]
+    current_agent: str
+    context: str
+    task_results: dict
+
+def research_agent(state: AgentState):
+    """Research agent that gathers information"""
+    # Implementation here
+    return {"messages": [AIMessage(content="Research complete")]}
+
+def analysis_agent(state: AgentState):
+    """Analysis agent that processes information"""
+    # Implementation here
+    return {"messages": [AIMessage(content="Analysis complete")]}
+
+# Create workflow
+workflow = StateGraph(AgentState)
+workflow.add_node("research", research_agent)
+workflow.add_node("analysis", analysis_agent)
+
+# Define flow
+workflow.add_edge(START, "research")
+workflow.add_edge("research", "analysis")
+workflow.add_edge("analysis", END)
+
+# Compile and run
+app = workflow.compile()
+result = app.invoke({
+    "messages": [HumanMessage(content="Start research")],
+    "current_agent": "",
+    "context": "",
+    "task_results": {}
+})</code></pre>
+                <div class="code-output" id="output-langgraph-basic">
+                    <div class="output-header">
+                        <span class="output-title">Output</span>
+                        <button class="close-output" onclick="closeOutput('output-langgraph-basic')">✕</button>
+                    </div>
+                    <div class="output-content">
+                        <!-- Output will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="crewai">👥 Chapter 3: Multi-Agent Teams with Crew AI</h2>
+            <h3>Role-Based Agent Architecture</h3>
+            <p>Crew AI enables creating specialized agent teams where each agent has a specific role, goal, and
+                backstory.</p>
+
+            <h3>Core Components</h3>
+            <ul>
+                <li><strong>Agents</strong>: Specialized AI entities with specific roles</li>
+                <li><strong>Tasks</strong>: Defined objectives for agents to accomplish</li>
+                <li><strong>Crews</strong>: Coordinated teams of agents working together</li>
+                <li><strong>Tools</strong>: External capabilities agents can use</li>
+            </ul>
+
+            <h3>Complete Crew AI Implementation</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">python</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'crewai-basic')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from crewai.tools import SerperDevTool
+from langchain_openai import ChatOpenAI
+
+# Create specialized agents
+researcher = Agent(
+    role='Senior Research Analyst',
+    goal='Conduct thorough research and analysis',
+    backstory='''You are an expert researcher with deep analytical skills''',
+    tools=[SerperDevTool()],
+    llm=ChatOpenAI(model="gpt-5")
+)
+
+writer = Agent(
+    role='Content Creator',
+    goal='Create compelling content based on research',
+    backstory='''You excel at transforming research into engaging content''',
+    llm=ChatOpenAI(model="gpt-5")
+)
+
+# Define tasks
+research_task = Task(
+    description='Research the latest AI trends in 2024',
+    expected_output='Comprehensive research report',
+    agent=researcher
+)
+
+writing_task = Task(
+    description='Create a blog post from the research',
+    expected_output='Engaging blog post',
+    agent=writer
+)
+
+# Create crew
+crew = Crew(
+    agents=[researcher, writer],
+    tasks=[research_task, writing_task],
+    process=Process.sequential,
+    verbose=2
+)
+
+# Execute
+result = crew.kickoff()</code></pre>
+                <div class="code-output" id="output-crewai-basic">
+                    <div class="output-header">
+                        <span class="output-title">Output</span>
+                        <button class="close-output" onclick="closeOutput('output-crewai-basic')">✕</button>
+                    </div>
+                    <div class="output-content">
+                        <!-- Output will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="autogen">💬 Chapter 4: Conversational Agents with AutoGen</h2>
+            <h3>Multi-Agent Conversations</h3>
+            <p>AutoGen enables creating conversational AI systems where multiple agents can discuss, collaborate, and
+                solve problems together.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Autonomous Conversations</strong>: Agents can talk to each other</li>
+                <li><strong>Human-in-the-Loop</strong>: Easy integration of human feedback</li>
+                <li><strong>Code Execution</strong>: Built-in code running capabilities</li>
+                <li><strong>Group Chats</strong>: Multiple agents in coordinated discussions</li>
+            </ul>
+
+            <h3>Complete AutoGen Implementation</h3>
+            <div class="code-wrapper">
+                <div class="code-header">
+                    <div class="window-controls">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                    </div>
+                    <div class="file-title">python</div>
+                    <div style="display: flex; gap: 0.5rem; margin-left: auto;">
+                        <button class="run-btn" onclick="runCode(this, 'autogen-basic')">
+                            <span>▶</span> Run Code
+                        </button>
+                        <button class="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                                <path
+                                    d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <pre><code class="language-python">import autogen
+from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
+
+# Configuration
+config_list = [{"model": "gpt-5", "api_key": "your-key"}]
+llm_config = {"config_list": config_list, "temperature": 0.1}
+
+# Create specialized agents
+data_scientist = AssistantAgent(
+    name="data_scientist",
+    system_message="You are a data scientist who analyzes data and builds models",
+    llm_config=llm_config
+)
+
+software_engineer = AssistantAgent(
+    name="software_engineer", 
+    system_message="You are a software engineer who writes clean, efficient code",
+    llm_config=llm_config
+)
+
+user_proxy = UserProxyAgent(
+    name="user_proxy",
+    human_input_mode="NEVER",
+    max_consecutive_auto_reply=10
+)
+
+# Create group chat
+groupchat = GroupChat(
+    agents=[user_proxy, data_scientist, software_engineer],
+    messages=[],
+    max_round=20
+)
+
+manager = GroupChatManager(
+    groupchat=groupchat,
+    llm_config=llm_config
+)
+
+# Start conversation
+user_proxy.initiate_chat(
+    manager,
+    message="Let's build a recommendation system"
+)</code></pre>
+                <div class="code-output" id="output-autogen-basic">
+                    <div class="output-header">
+                        <span class="output-title">Output</span>
+                        <button class="close-output" onclick="closeOutput('output-autogen-basic')">✕</button>
+                    </div>
+                    <div class="output-content">
+                        <!-- Output will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 id="integration">🔗 Chapter 5: Integration and Advanced Patterns</h2>
+            <h3>Best Practices</h3>
+
+            <h4>1. Performance Optimization</h4>
+            <ul>
+                <li><strong>Use async operations for parallel processing</strong> - This allows multiple agents to work
+                    simultaneously, reducing overall execution time</li>
+                <li><strong>Implement caching for frequent queries</strong> - Store results of common queries to avoid
+                    redundant processing</li>
+                <li><strong>Optimize embedding computations</strong> - Use efficient embedding models and batch
+                    processing</li>
+            </ul>
+
+            <h4>2. Error Handling</h4>
+            <ul>
+                <li><strong>Graceful degradation when agents fail</strong> - System should continue functioning even if
+                    some agents encounter errors</li>
+                <li><strong>Retry mechanisms with exponential backoff</strong> - Automatically retry failed operations
+                    with increasing delays</li>
+                <li><strong>Comprehensive logging and monitoring</strong> - Track system performance and identify issues
+                    early</li>
+            </ul>
+
+            <h4>3. Memory Management</h4>
+            <ul>
+                <li><strong>Efficient conversation history management</strong> - Limit stored conversation history to
+                    prevent memory overflow</li>
+                <li><strong>Context window optimization</strong> - Manage LLM context windows to stay within token
+                    limits</li>
+                <li><strong>State persistence strategies</strong> - Save and restore agent states across sessions</li>
+            </ul>
+
+            <h4>4. Testing and Validation</h4>
+            <ul>
+                <li><strong>Unit tests for individual agents</strong> - Test each agent in isolation</li>
+                <li><strong>Integration tests for workflows</strong> - Test how agents work together</li>
+                <li><strong>Performance benchmarking</strong> - Measure system performance under different loads</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="projects">🛠️ Hands-On Projects</h2>
+
+            <h3>Project 1: Personal Knowledge Assistant</h3>
+            <p>Build a Streamlit app that can answer questions about your documents using RAG. This project teaches you
+                how to create a practical document Q&A system.</p>
+
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li><strong>PDF and text document support</strong> - Handle multiple document formats</li>
+                <li><strong>Conversational interface</strong> - User-friendly chat interface</li>
+                <li><strong>Source citation</strong> - Show which documents contain the answers</li>
+                <li><strong>Chat history</strong> - Maintain conversation context</li>
+            </ul>
+
+            <h3>Project 2: Multi-Agent Research Team</h3>
+            <p>Create a research team using Crew AI that can conduct comprehensive research on any topic. This
+                demonstrates role-based agent collaboration.</p>
+
+            <p><strong>Team Members:</strong></p>
+            <ul>
+                <li><strong>Senior Researcher</strong> - Gathers and analyzes information</li>
+                <li><strong>Data Analyst</strong> - Processes and visualizes data</li>
+                <li><strong>Content Synthesizer</strong> - Combines information into coherent narratives</li>
+                <li><strong>Quality Reviewer</strong> - Ensures accuracy and quality</li>
+            </ul>
+
+            <h3>Project 3: Code Review System</h3>
+            <p>Build an AutoGen-based system for collaborative code review. This shows how conversational agents can
+                work together on technical tasks.</p>
+
+            <p><strong>Specialists:</strong></p>
+            <ul>
+                <li><strong>Senior Code Reviewer</strong> - Reviews code quality and standards</li>
+                <li><strong>Security Specialist</strong> - Identifies security vulnerabilities</li>
+                <li><strong>Performance Engineer</strong> - Analyzes performance implications</li>
+                <li><strong>Testing Specialist</strong> - Evaluates test coverage and quality</li>
+            </ul>
+
+            <h3>Project 4: Document Processing Pipeline</h3>
+            <p>Create a LangGraph workflow for intelligent document processing. This demonstrates complex state-based
+                workflows.</p>
+
+            <p><strong>Pipeline Steps:</strong></p>
+            <ul>
+                <li><strong>Document loading and classification</strong> - Load documents and categorize them</li>
+                <li><strong>Entity extraction</strong> - Extract key information and entities</li>
+                <li><strong>Summary generation</strong> - Create concise summaries</li>
+                <li><strong>Quality assurance</strong> - Validate processing results</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="advanced">📈 Advanced Topics</h2>
+
+            <h3>1. RAG Optimization Techniques</h3>
+            <ul>
+                <li><strong>Chunking Strategies</strong>: Optimal chunk sizes and overlap - Finding the right balance
+                    between context preservation and retrieval efficiency</li>
+                <li><strong>Embedding Models</strong>: Choosing the right embedding approach - Different models for
+                    different use cases (semantic vs keyword-based)</li>
+                <li><strong>Retrieval Methods</strong>: Hybrid search, re-ranking, query expansion - Combining multiple
+                    retrieval strategies for better results</li>
+                <li><strong>Context Management</strong>: Managing long conversations and context windows - Techniques to
+                    maintain context over extended interactions</li>
+            </ul>
+
+            <h3>2. Multi-Modal Agents</h3>
+            <ul>
+                <li><strong>Vision Agents</strong>: Processing images and visual content - Agents that can analyze and
+                    describe images</li>
+                <li><strong>Audio Agents</strong>: Speech recognition and generation - Agents that can process and
+                    generate audio</li>
+                <li><strong>Document Agents</strong>: Handling complex document formats - Specialized agents for
+                    different document types</li>
+            </ul>
+
+            <h3>3. Production Deployment</h3>
+            <ul>
+                <li><strong>Scalability</strong>: Horizontal scaling strategies - Distributing workload across multiple
+                    servers</li>
+                <li><strong>Monitoring</strong>: Agent performance and health monitoring - Tracking system health and
+                    performance metrics</li>
+                <li><strong>Security</strong>: Authentication, authorization, and data protection - Protecting sensitive
+                    data and controlling access</li>
+                <li><strong>Cost Optimization</strong>: Efficient resource usage - Minimizing computational costs while
+                    maintaining performance</li>
+            </ul>
+
+            <h3>4. Custom Tool Development</h3>
+            <ul>
+                <li><strong>API Integrations</strong>: Connecting to external services - Building tools that interact
+                    with web APIs</li>
+                <li><strong>Database Tools</strong>: Custom database query agents - Agents specialized in database
+                    operations</li>
+                <li><strong>File Processing Tools</strong>: Specialized file handling capabilities - Tools for
+                    processing various file formats</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="troubleshooting">🔧 Troubleshooting Guide</h2>
+
+            <h3>Common Issues and Solutions</h3>
+
+            <h4>1. API Rate Limits</h4>
+            <ul>
+                <li><strong>Implement exponential backoff</strong> - Gradually increase wait times between API calls
+                </li>
+                <li><strong>Use multiple API keys with load balancing</strong> - Distribute requests across multiple API
+                    keys</li>
+                <li><strong>Cache responses to reduce API calls</strong> - Store and reuse previous responses</li>
+            </ul>
+
+            <h4>2. Memory Issues</h4>
+            <ul>
+                <li><strong>Limit conversation history length</strong> - Prevent memory overflow by limiting stored
+                    history</li>
+                <li><strong>Use streaming for large responses</strong> - Process responses in chunks rather than loading
+                    everything at once</li>
+                <li><strong>Implement garbage collection for unused objects</strong> - Clean up memory by removing
+                    unused data</li>
+            </ul>
+
+            <h4>3. Vector Database Performance</h4>
+            <ul>
+                <li><strong>Optimize index settings</strong> - Configure database indexes for better query performance
+                </li>
+                <li><strong>Use appropriate distance metrics</strong> - Choose the right similarity measurement method
+                </li>
+                <li><strong>Regular index maintenance</strong> - Keep indexes optimized and up-to-date</li>
+            </ul>
+
+            <h4>4. Agent Coordination Problems</h4>
+            <ul>
+                <li><strong>Clear task definitions</strong> - Ensure tasks are well-defined and unambiguous</li>
+                <li><strong>Proper state management</strong> - Maintain consistent state across agent interactions</li>
+                <li><strong>Timeout mechanisms</strong> - Prevent hanging by setting appropriate timeouts</li>
+            </ul>
+
+            <hr>
+
+            <h2 id="references">📖 References</h2>
+
+            <h3>Framework Documentation and Guides</h3>
+
+            <h4>1. LangChain</h4>
+            <ul>
+                <li><strong>Official Documentation</strong>: <a
+                        href="https://python.langchain.com/">python.langchain.com</a></li>
+                <li><strong>LangChain Hub</strong>: <a
+                        href="https://smith.langchain.com/hub">smith.langchain.com/hub</a></li>
+            </ul>
+
+            <h4>2. LangGraph</h4>
+            <ul>
+                <li><strong>Official Documentation</strong>: <a
+                        href="https://langchain-ai.github.io/langgraph/">langchain-ai.github.io/langgraph</a></li>
+                <li><strong>LangGraph Tutorials</strong>: <a
+                        href="https://github.com/langchain-ai/langgraph">github.com/langchain-ai/langgraph</a></li>
+            </ul>
+
+            <h4>3. Crew AI</h4>
+            <ul>
+                <li><strong>Official Documentation</strong>: <a href="https://docs.crewai.com/">docs.crewai.com</a></li>
+                <li><strong>CrewAI GitHub</strong>: <a
+                        href="https://github.com/joaomdmoura/crewai">github.com/joaomdmoura/crewai</a></li>
+            </ul>
+
+            <h4>4. AutoGen</h4>
+            <ul>
+                <li><strong>Official Documentation</strong>: <a
+                        href="https://microsoft.github.io/autogen/">microsoft.github.io/autogen</a></li>
+                <li><strong>Microsoft Research Paper</strong>: Wu, Q., et al. (2023). "AutoGen: Enabling Next-Gen LLM
+                    Applications via Multi-Agent Conversation." <em>arXiv preprint arXiv:2308.08155</em>.</li>
+            </ul>
+
+            <h3>Vector Databases and Embeddings</h3>
+
+            <ol>
+                <li><strong>Chroma</strong>: <a href="https://docs.trychroma.com/">docs.trychroma.com</a></li>
+                <li><strong>Pinecone</strong>: <a href="https://docs.pinecone.io/">docs.pinecone.io</a></li>
+                <li><strong>FAISS</strong>: <a
+                        href="https://github.com/facebookresearch/faiss">github.com/facebookresearch/faiss</a></li>
+                <li><strong>Weaviate</strong>: <a
+                        href="https://weaviate.io/developers/weaviate">weaviate.io/developers/weaviate</a></li>
+            </ol>
+
+            <h3>Key Libraries and Tools</h3>
+
+            <ol>
+                <li><strong>OpenAI API</strong>: <a href="https://platform.openai.com/docs">platform.openai.com/docs</a>
+                </li>
+                <li><strong>Anthropic Claude</strong>: <a href="https://docs.anthropic.com/">docs.anthropic.com</a></li>
+                <li><strong>Hugging Face Transformers</strong>: <a
+                        href="https://huggingface.co/docs/transformers">huggingface.co/docs/transformers</a></li>
+                <li><strong>Streamlit</strong>: <a href="https://docs.streamlit.io/">docs.streamlit.io</a></li>
+                <li><strong>FastAPI</strong>: <a href="https://fastapi.tiangolo.com/">fastapi.tiangolo.com</a></li>
+            </ol>
+
+            <h3>GitHub Repositories</h3>
+
+            <ol>
+                <li><strong>LangChain Examples</strong>: <a
+                        href="https://github.com/langchain-ai/langchain">github.com/langchain-ai/langchain</a></li>
+                <li><strong>Awesome LangChain</strong>: <a
+                        href="https://github.com/kyrolabs/awesome-langchain">github.com/kyrolabs/awesome-langchain</a>
+                </li>
+                <li><strong>AutoGen Examples</strong>: <a
+                        href="https://github.com/microsoft/autogen">github.com/microsoft/autogen</a></li>
+                <li><strong>CrewAI Examples</strong>: <a
+                        href="https://github.com/joaomdmoura/crewai-examples">github.com/joaomdmoura/crewai-examples</a>
+                </li>
+            </ol>
+
+            <hr>
+
+            <h2 id="conclusion">🎉 Conclusion</h2>
+            <p>You now have a comprehensive understanding of building AI agent systems with RAG capabilities using
+                multiple frameworks. Each framework has its strengths:</p>
+            <ul>
+                <li><strong>LangChain</strong>: Excellent for basic RAG and chain-based workflows - Perfect for
+                    straightforward document processing and Q&A systems</li>
+                <li><strong>LangGraph</strong>: Perfect for complex, state-driven agent workflows - Ideal for
+                    applications requiring sophisticated state management and decision-making</li>
+                <li><strong>Crew AI</strong>: Ideal for role-based team collaboration - Best for scenarios where you
+                    need specialized agents working together like a real team</li>
+                <li><strong>AutoGen</strong>: Great for conversational and interactive agents - Excellent for chat-based
+                    applications and multi-turn conversations</li>
+            </ul>
+            <p>The key to success is choosing the right framework for your specific use case and understanding how to
+                integrate them when needed. Start with the hands-on projects to gain practical experience, then explore
+                advanced topics as your needs grow.</p>
+            <p>Happy building! 🚀</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+
+        // Copy Button Functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.closest('.code-wrapper').querySelector('pre code');
+                const codeText = codeBlock.innerText;
+
+                navigator.clipboard.writeText(codeText).then(() => {
+                    const originalContent = button.innerHTML;
+                    button.innerHTML = 'Copied!';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+        });
+
+        // Sidebar Navigation Functionality
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Smooth scrolling and active link highlighting
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    // Close mobile sidebar after clicking
+                    if (window.innerWidth <= 640) {
+                        document.querySelector('.sidebar').classList.remove('open');
+                    }
+
+                    // Smooth scroll to target
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Update URL without page reload
+                    history.pushState(null, null, `#${targetId}`);
+                }
+            });
+        });
+
+        // Intersection Observer for active section highlighting
+        const observerOptions = {
+            root: null,
+            rootMargin: '-80px 0px -80px 0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active class from all links
+                    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+
+                    // Add active class to current section link
+                    const activeLink = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        const sections = document.querySelectorAll('h2[id]');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Handle initial load with hash
+        window.addEventListener('load', function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 100);
+                }
+            }
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+
+        // Progress Bar Functionality
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressFill').style.width = scrollPercent + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+        updateProgressBar(); // Initial call
+
+        // Scroll to Top Functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show FAB when scrolled down
+        window.addEventListener('scroll', function () {
+            const fab = document.querySelector('.fab');
+            if (window.pageYOffset > 300) {
+                fab.style.opacity = '1';
+                fab.style.visibility = 'visible';
+            } else {
+                fab.style.opacity = '0';
+                fab.style.visibility = 'hidden';
+            }
+        });
+
+        // Code Running Functionality
+        async function runCode(button, codeId) {
+            const outputDiv = document.getElementById(`output-${codeId}`);
+            const outputContent = outputDiv.querySelector('.output-content');
+
+            // Reset button and output
+            button.classList.remove('success', 'error');
+            button.classList.add('running');
+            button.innerHTML = '<span>⏳</span> Running...';
+
+            outputDiv.classList.remove('output-success', 'output-error');
+            outputDiv.style.display = 'block';
+            outputContent.innerHTML = '<div style="color: #569cd6;">🔄 Executing code...</div>';
+
+            try {
+                // Simulate code execution (replace with actual API call)
+                const result = await simulateCodeExecution(codeId);
+
+                button.classList.remove('running');
+                button.classList.add('success');
+                button.innerHTML = '<span>✅</span> Success';
+
+                outputDiv.classList.add('output-success');
+                outputContent.innerHTML = `<pre style="margin: 0; white-space: pre-wrap;">${result}</pre>`;
+
+            } catch (error) {
+                button.classList.remove('running');
+                button.classList.add('error');
+                button.innerHTML = '<span>❌</span> Error';
+
+                outputDiv.classList.add('output-error');
+                outputContent.innerHTML = `<div style="color: #f44336;">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Simulate code execution (replace with actual backend API)
+        async function simulateCodeExecution(codeId) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            const mockOutputs = {
+                'rag-basic': `# RAG Setup Complete!
+✅ Documents loaded successfully
+✅ Text split into 42 chunks
+✅ Embeddings generated using OpenAI
+✅ Vector store created with ChromaDB
+✅ RAG chain initialized
+
+Query: "Your question here"
+Response: This is a simulated response from the RAG system. The actual implementation would provide contextually relevant answers based on the ingested documents using retrieval-augmented generation.`,
+
+                'langgraph-basic': `# LangGraph Workflow Created!
+✅ AgentState class defined
+✅ Research agent node added
+✅ Analysis agent node added
+✅ Workflow edges configured
+✅ Graph compiled successfully
+
+Result: {
+  "messages": [
+    {"content": "Research complete"},
+    {"content": "Analysis complete"}
+  ],
+  "current_agent": "analysis",
+  "context": "",
+  "task_results": {}
+}`,
+
+                'crewai-basic': `# Crew AI Team Created!
+✅ Researcher agent initialized
+✅ Writer agent initialized
+✅ Research task defined
+✅ Writing task defined
+✅ Crew configured with sequential process
+
+Kickoff Result: Research and content creation completed successfully. The team has produced comprehensive research reports and engaging blog posts.`,
+
+                'autogen-basic': `# AutoGen Conversation Started!
+✅ Data scientist agent created
+✅ Software engineer agent created
+✅ User proxy agent configured
+✅ Group chat initialized
+✅ Manager configured
+
+Conversation initiated: "Let's build a recommendation system"
+Agents are now collaborating on the project...`
+            };
+
+            return mockOutputs[codeId] || 'Code execution completed successfully!';
+        }
+
+        // Close output functionality
+        function closeOutput(outputId) {
+            const outputDiv = document.getElementById(outputId);
+            outputDiv.style.display = 'none';
+
+            // Reset button state
+            const codeWrapper = outputDiv.closest('.code-wrapper');
+            const runBtn = codeWrapper.querySelector('.run-btn');
+            if (runBtn) {
+                runBtn.classList.remove('success', 'error', 'running');
+                runBtn.innerHTML = '<span>▶</span> Run Code';
+            }
+        }
+
+        // Enhanced keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl/Cmd + K to focus search (if we add search later)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Could add search functionality here
+            }
+
+            // Escape to close outputs
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.code-output[style*="display: block"]').forEach(output => {
+                    const outputId = output.id;
+                    closeOutput(outputId);
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
